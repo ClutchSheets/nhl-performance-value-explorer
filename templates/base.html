@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}NHL Performance Value Explorer{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/?scope={{ scope }}">NHL Performance Value Explorer</a>
+    <nav>
+      <a href="/players?scope={{ scope }}">Players</a>
+      <a href="/teams?scope={{ scope }}">Teams</a>
+      <a href="/gms?scope={{ scope }}">GMs</a>
+      <a href="/agents?scope={{ scope }}">Agents</a>
+      <a href="/model?scope={{ scope }}">Model</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="scope-bar">
+      <div>
+        <strong>Dataset:</strong> {{ scope_label }}
+        <span class="scope-note">Use the toggle to refresh every table, chart, ranking, and drilldown.</span>
+      </div>
+      <div class="scope-actions">
+        <a class="scope-pill {% if scope == 'all' %}active{% endif %}" href="{{ all_contracts_url }}">All contracts</a>
+        <a class="scope-pill {% if scope == 'std' %}active{% endif %}" href="{{ std_contracts_url }}">Exclude ELCs</a>
+      </div>
+    </div>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Regression-based NHL performance value using public data. Portfolio project.</footer>
+</body>
+</html>

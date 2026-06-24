@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Model Details{% endblock %}
+{% block content %}
+<section class="page-title"><h1>Model</h1><p>Regression output, variables, limitations, and sources.</p></section>
+<section class="grid two">
+<div class="panel prose"><h2>Variables used</h2><ul>{% for v in variables %}<li>{{ v }}</li>{% endfor %}</ul></div>
+<div class="panel prose"><h2>Limitations</h2><ul><li>The model estimates performance-based value from public box-score and rate statistics only.</li><li>It does not fully capture role, deployment, injuries, leverage, team context, contract term, free-agent timing, or cap environment.</li><li>Performance Value should be interpreted as a model estimate of last season's production relative to cap hit, not a definitive player valuation.</li><li>The ELC toggle refreshes app rankings after filtering entry-level contracts, but it does not retrain the regression.</li></ul></div>
+</section>
+<section class="panel table-wrap"><h2>Regression summary</h2><table class="data-table"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>{% for r in summary %}<tr><td>{{ r.metric }}</td><td>{{ r.value }}</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel table-wrap"><h2>Coefficients</h2><table class="data-table sortable"><thead><tr><th>Variable</th><th>Coefficient</th><th>Std. Error</th><th>t Stat</th><th>p-value</th><th>Lower 95</th><th>Upper 95</th></tr></thead><tbody>{% for c in coeffs %}<tr><td>{{ c.variable }}</td><td>{{ c.coefficient|number(4) }}</td><td>{{ c.standard_error|number(4) }}</td><td>{{ c.t_stat|number(2) }}</td><td>{{ c.p_value }}</td><td>{{ c.lower_95|number(4) }}</td><td>{{ c.upper_95|number(4) }}</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel prose"><h2>Data sources</h2><p>Built from the project workbook supplied by the author. Public source attribution should be added here before public launch: NHL performance statistics source, contract/cap-hit source, agent source, and GM/signing data source.</p></section>
+{% endblock %}

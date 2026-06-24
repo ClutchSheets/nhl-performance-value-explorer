@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}NHL Performance Value Explorer{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">Portfolio analytics project</p>
+    <h1>Did NHL players perform up to their cap hit?</h1>
+    <p class="lede">This app estimates 2025–26 performance-based value from public NHL statistics, compares that estimate to actual cap hit, and surfaces performance surplus by player, team, GM, and agent.</p>
+    <div class="actions"><a class="button" href="/players?scope={{ scope }}">Explore Players</a><a class="button secondary" href="/model?scope={{ scope }}">View Model</a></div>
+  </div>
+  <div class="hero-card">
+    <span>Model R²</span>
+    <strong>{{ stats.r2|number(3) }}</strong>
+    <p>Explains roughly {{ (stats.r2 * 100)|number }}% of cap-hit variation in the original regression dataset.</p>
+  </div>
+</section>
+
+<section class="kpi-grid">
+  <div class="kpi"><span>Players Shown</span><strong>{{ stats.players }}</strong></div>
+  <div class="kpi"><span>Teams</span><strong>{{ stats.teams }}</strong></div>
+  <div class="kpi"><span>Signing GMs</span><strong>{{ stats.gms }}</strong></div>
+  <div class="kpi"><span>Agents</span><strong>{{ stats.agents }}</strong></div>
+  <div class="kpi wide"><span>Dataset Performance Surplus</span><strong>{{ stats.total_surplus|money }}</strong></div>
+</section>
+
+<section class="panel prose callout">
+  <h2>How to interpret this</h2>
+  <p><strong>Performance Value</strong> is the model's estimate of what a player's 2025–26 on-ice production was worth relative to NHL cap hits in this dataset. <strong>Performance Surplus</strong> is Performance Value minus Actual Cap Hit.</p>
+  <p>This is not a full contract-negotiation model. It does not include contract term, UFA/RFA leverage, cap inflation, leadership, marketing value, or future expectations. It answers a narrower question: how closely did last season's measured performance align with the player's cap hit?</p>
+</section>
+
+<section class="grid two">
+  <div class="panel"><div id="scatter" class="chart"></div></div>
+  <div class="panel"><div id="team_bar" class="chart"></div></div>
+</section>
+
+<section class="panel prose">
+  <h2>Methodology summary</h2>
+  <p>The dependent variable is log cap hit. The model uses age, games played, points rate, shot attempt creation, scoring-chance creation, high-danger chance creation, giveaways, takeaways, hits, and blocked shots to estimate expected performance value. Predicted values are converted back from log scale using an exponential transformation.</p>
+  <p>The dataset toggle refreshes the app after removing entry-level contracts. The model predictions themselves are unchanged; the tables, charts, and rankings are recalculated on the filtered dataset.</p>
+</section>
+<script>
+renderChart('scatter', {{ charts.scatter|safe }});
+renderChart('team_bar', {{ charts.team_bar|safe }});
+</script>
+{% endblock %}

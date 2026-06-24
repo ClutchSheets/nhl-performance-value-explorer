@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="page-title"><h1>{{ title }}</h1><p>Rankings refresh automatically using the current dataset scope: <strong>{{ scope_label }}</strong>.</p></section>
+<div class="sort-links">
+  <a href="?scope={{ scope }}&sort=total_surplus" class="{% if sort == 'total_surplus' %}active{% endif %}">Total Surplus</a>
+  <a href="?scope={{ scope }}&sort=average_surplus" class="{% if sort == 'average_surplus' %}active{% endif %}">Average Surplus</a>
+  <a href="?scope={{ scope }}&sort=surplus_per_contract" class="{% if sort == 'surplus_per_contract' %}active{% endif %}">Surplus / Contract</a>
+  <a href="?scope={{ scope }}&sort=surplus_rate" class="{% if sort == 'surplus_rate' %}active{% endif %}">Surplus Rate</a>
+</div>
+<div class="panel"><div id="ranking_chart" class="chart"></div></div>
+<div class="panel table-wrap">
+<table class="data-table sortable">
+<thead><tr><th>Name</th><th>Contracts</th><th>Total Surplus</th><th>Average Surplus</th><th>Surplus / Contract</th><th>Surplus Rate</th><th></th></tr></thead>
+<tbody>{% for r in rows %}<tr><td>{% if key_col == "team" %}<span class="team-badge team-{{ r[key_col]|team_class }}">{{ r[key_col] }}</span>{% else %}{{ r[key_col] }}{% endif %}</td><td>{{ r.contracts }}</td><td>{{ r.total_surplus|money }}</td><td>{{ r.average_surplus|money }}</td><td>{{ r.surplus_per_contract|money }}</td><td>{{ (r.surplus_rate * 100)|number }}%</td><td><a href="{{ url_for(endpoint, name=r[key_col], scope=scope) if endpoint != 'team_detail' else url_for(endpoint, team=r[key_col], scope=scope) }}">Drill in</a></td></tr>{% endfor %}</tbody>
+</table>
+</div>
+<script>renderChart('ranking_chart', {{ chart|safe }});</script>
+{% endblock %}

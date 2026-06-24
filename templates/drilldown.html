@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="page-title"><p class="eyebrow">{{ label }}</p><h1>{{ value }}</h1><p>Current dataset: <strong>{{ scope_label }}</strong></p></section>
+<section class="kpi-grid"><div class="kpi"><span>Contracts</span><strong>{{ stats.contracts }}</strong></div><div class="kpi"><span>Total Performance Surplus</span><strong>{{ stats.total_surplus|money }}</strong></div><div class="kpi"><span>Average Surplus</span><strong>{{ stats.average_surplus|money }}</strong></div><div class="kpi"><span>Positive Contracts</span><strong>{{ stats.positive }}</strong></div></section>
+<div class="panel"><div id="drill_chart" class="chart"></div></div>
+<div class="panel table-wrap"><table class="data-table sortable"><thead><tr><th>Player</th><th>Team</th><th>Pos</th><th>Type</th><th>Actual</th><th>Performance Value</th><th>Performance Surplus</th><th>GM</th><th>Agent</th></tr></thead><tbody>{% for p in players %}<tr><td><a href="/player/{{ p.slug }}?scope={{ scope }}">{{ p.display_name }}</a></td><td><span class="team-badge team-{{ p.team|team_class }}">{{ p.team }}</span></td><td>{{ p.position }}</td><td>{{ p.contract_type }}</td><td>{{ p.actual_cap_hit|money }}</td><td>{{ p.predicted_market_value|money }}</td><td class="{% if p.contract_surplus >= 0 %}positive{% else %}negative{% endif %}">{{ p.contract_surplus|money }}</td><td>{{ p.signing_gm }}</td><td>{{ p.agent }}</td></tr>{% endfor %}</tbody></table></div>
+<script>renderChart('drill_chart', {{ chart|safe }});</script>
+{% endblock %}
