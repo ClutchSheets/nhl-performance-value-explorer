@@ -40,3 +40,8 @@ The included `Procfile` already contains this command.
 - Added minimalist team abbreviation badges using color accents only. No official NHL logos or protected artwork are included.
 - Standardized non-model decimal formatting to three decimal places where values are displayed as decimals.
 - Kept model coefficients and regression details on the Model page at higher precision.
+
+
+## Latest update
+
+Added 2025-26 scoring columns (GP, G, A, P, +/-, PIM) to player profiles and explorer tables.

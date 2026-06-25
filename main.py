@@ -61,7 +61,7 @@ def load_csv(name: str) -> pd.DataFrame:
 
 def prepare_players(players: pd.DataFrame) -> pd.DataFrame:
     players = players.copy()
-    for col in ["actual_cap_hit", "predicted_market_value", "contract_surplus", "r2", "age", "games_played", "points"]:
+    for col in ["actual_cap_hit", "predicted_market_value", "contract_surplus", "r2", "age", "games_played", "goals", "assists", "points", "plus_minus", "pim"]:
         if col in players.columns:
             players[col] = pd.to_numeric(players[col], errors="coerce")
 

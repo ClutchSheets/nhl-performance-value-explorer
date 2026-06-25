@@ -6,14 +6,33 @@
   <div class="kpi"><span>Actual Cap Hit</span><strong>{{ p.actual_cap_hit|money }}</strong></div>
   <div class="kpi"><span>Performance Value</span><strong>{{ p.predicted_market_value|money }}</strong></div>
   <div class="kpi"><span>Performance Surplus</span><strong class="{% if p.contract_surplus >= 0 %}positive{% else %}negative{% endif %}">{{ p.contract_surplus|money }}</strong></div>
-  <div class="kpi"><span>Age</span><strong>{{ p.age|number }}</strong></div>
+  <div class="kpi"><span>Age</span><strong>{{ p.age|number(0) }}</strong></div>
 </section>
 <section class="panel prose callout">
   <h2>Interpretation</h2>
   <p>This estimate reflects measured 2025–26 on-ice performance relative to cap hit. It should not be read as a full contract valuation because it does not include negotiation leverage, contract term, UFA/RFA status, cap growth, leadership, or future expectations.</p>
 </section>
 <section class="grid two">
-  <div class="panel prose"><h2>Contract context</h2><p><strong>Signing GM:</strong> {{ p.signing_gm }}</p><p><strong>Agent:</strong> {{ p.agent }}</p><p><strong>Contract type:</strong> {{ p.contract_type }}</p><p><strong>Games played:</strong> {{ p.games_played|number(0) }}</p><p><strong>Points:</strong> {{ p.points|number(0) }}</p></div>
-  <div class="panel"><h2>Performance metrics</h2><div class="metric-list">{% for m in metrics %}<div><span>{{ m.name }}</span><strong>{{ m.value|number }}</strong></div>{% endfor %}</div></div>
+  <div class="panel prose">
+    <h2>Contract context</h2>
+    <p><strong>Signing GM:</strong> {{ p.signing_gm }}</p>
+    <p><strong>Agent:</strong> {{ p.agent }}</p>
+    <p><strong>Contract type:</strong> {{ p.contract_type }}</p>
+    <p><strong>Games played:</strong> {{ p.games_played|number(0) }}</p>
+  </div>
+  <div class="panel">
+    <h2>Scoring summary</h2>
+    <div class="metric-list compact">
+      <div><span>Goals</span><strong>{{ p.goals|number(0) }}</strong></div>
+      <div><span>Assists</span><strong>{{ p.assists|number(0) }}</strong></div>
+      <div><span>Points</span><strong>{{ p.points|number(0) }}</strong></div>
+      <div><span>Plus / Minus</span><strong>{{ p.plus_minus|number(0) }}</strong></div>
+      <div><span>PIM</span><strong>{{ p.pim|number(0) }}</strong></div>
+    </div>
+  </div>
+</section>
+<section class="panel">
+  <h2>Rate-based performance metrics</h2>
+  <div class="metric-list">{% for m in metrics %}<div><span>{{ m.name }}</span><strong>{{ m.value|number }}</strong></div>{% endfor %}</div>
 </section>
 {% endblock %}

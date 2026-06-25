@@ -11,12 +11,25 @@
   <button class="button" type="submit">Apply</button>
 </form>
 <div class="panel table-wrap">
-<table class="data-table sortable">
-<thead><tr><th>Player</th><th>Team</th><th>Pos</th><th>Type</th><th>Actual Cap Hit</th><th>Performance Value</th><th>Performance Surplus</th><th>Signing GM</th><th>Agent</th></tr></thead>
+<table class="data-table sortable player-table">
+<thead><tr><th>Player</th><th>Team</th><th>Pos</th><th>GP</th><th>G</th><th>A</th><th>P</th><th>+/-</th><th>Type</th><th>Actual Cap Hit</th><th>Performance Value</th><th>Performance Surplus</th><th>Signing GM</th><th>Agent</th></tr></thead>
 <tbody>
 {% for p in players %}
 <tr>
-<td><a href="/player/{{ p.slug }}?scope={{ scope }}">{{ p.display_name }}</a></td><td><span class="team-badge team-{{ p.team|team_class }}">{{ p.team }}</span></td><td>{{ p.position }}</td><td>{{ p.contract_type }}</td><td>{{ p.actual_cap_hit|money }}</td><td>{{ p.predicted_market_value|money }}</td><td class="{% if p.contract_surplus >= 0 %}positive{% else %}negative{% endif %}">{{ p.contract_surplus|money }}</td><td>{{ p.signing_gm }}</td><td>{{ p.agent }}</td>
+<td><a href="/player/{{ p.slug }}?scope={{ scope }}">{{ p.display_name }}</a></td>
+<td><span class="team-badge team-{{ p.team|team_class }}">{{ p.team }}</span></td>
+<td>{{ p.position }}</td>
+<td>{{ p.games_played|number(0) }}</td>
+<td>{{ p.goals|number(0) }}</td>
+<td>{{ p.assists|number(0) }}</td>
+<td>{{ p.points|number(0) }}</td>
+<td>{{ p.plus_minus|number(0) }}</td>
+<td>{{ p.contract_type }}</td>
+<td>{{ p.actual_cap_hit|money }}</td>
+<td>{{ p.predicted_market_value|money }}</td>
+<td class="{% if p.contract_surplus >= 0 %}positive{% else %}negative{% endif %}">{{ p.contract_surplus|money }}</td>
+<td>{{ p.signing_gm }}</td>
+<td>{{ p.agent }}</td>
 </tr>
 {% endfor %}
 </tbody></table>
